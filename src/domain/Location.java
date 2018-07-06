@@ -1,84 +1,80 @@
 package domain;
 
 public class Location {
-	
-	String locationId;
-	String street;
-	String city;
-	String country;
-	String state;
-	String zip;
-	
-	public Location() {
-		super();
-	}
-	
-	public Location(String locationId, String street, String city, String country, String state, String zip) {
-		super();
-		this.locationId = locationId;
-		this.street = street;
-		this.city = city;
-		this.country = country;
-		this.state = state;
-		this.zip = zip;
-	}
 
-	public String getLocationId() {
-		return locationId;
-	}
+    String locationId;
+    String street;
+    String city;
+    String country;
+    String state;
+    String zip;
 
-	public void setLocationId(String locationId) {
-		this.locationId = locationId;
-	}
+    public Location() {
+        super();
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public Location(String locationId, String street, String city, String country, String state, String zip) {
+        super();
+        this.locationId = locationId;
+        this.street = street;
+        this.city = city;
+        this.country = country;
+        this.state = state;
+        this.zip = zip;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public String getLocationId() {
+        return locationId;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public String getZip() {
-		return zip;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
+    public String getState() {
+        return state;
+    }
 
-	@Override
-	public String toString() {
-		return "Locations [locationId=" + locationId + ", street=" + street + ", city=" + city + ", country="
-				+ country + ", state=" + state + ", zip=" + zip + "]";
-	}
-	
-	
-	
-	
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    @Override
+    public String toString() {
+        return "Locations [locationId=" + locationId + ", street=" + street + ", city=" + city + ", country="
+                + country + ", state=" + state + ", zip=" + zip + "]";
+    }
+
 }
-
