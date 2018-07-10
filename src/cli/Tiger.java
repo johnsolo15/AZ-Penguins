@@ -57,14 +57,17 @@ public class Tiger {
         switch (input) {
             case 1:
                 loginScreen();
+                break;
             case 2:
                 registerScreen();
+                break;
             case 3:
                 System.out.println("Goodbye");
                 System.exit(0);
             case 4:
                 AdminAndManager aam = new AdminAndManager(con);
                 aam.adminScreen();
+                break;
         }
 
     }
@@ -248,6 +251,7 @@ public class Tiger {
         }
         if (input == 4 && confirm()) {
             sw.submitOrder(currentOrder);
+            homeScreen();
         } else if (input == 5) {
             homeScreen();
         }
