@@ -8,6 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import domain.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import services.MenuServices;
 import services.OrderService;
@@ -82,9 +89,17 @@ public class ServiceWrapper {
     }
 
     public void submitOrder(Order currentOrder) {
+        Scanner inScan = new Scanner(System.in);
         // TODO Auto-generated method stub
 
         currentOrder.setDelivery_status_id("0");
+        currentOrder.setPlaced_timestamp(new Timestamp(System.currentTimeMillis()));
+        System.out.println("Enter Delevery date in the format 'yyyy-MM-dd HH:mm:ss' inter hours in 24 format");
+        String tempStamp = inScan.nextLine();
+        
+        //SimpleDateFormat STAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh24:mm:ss");
+        //Date TS= STAMP_FORMAT.parse(tempStamp);
+        currentOrder.setDelivery_timestamp(Timestamp.valueOf(tempStamp));
         OrderService os = new OrderService(con);
         os.add(currentOrder);
 
