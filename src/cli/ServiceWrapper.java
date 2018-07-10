@@ -89,17 +89,12 @@ public class ServiceWrapper {
     }
 
     public void submitOrder(Order currentOrder) {
-        Scanner inScan = new Scanner(System.in);
+        //Scanner inScan = new Scanner(System.in);
         // TODO Auto-generated method stub
 
         currentOrder.setDelivery_status_id("0");
+        //create placed timestamp at submit
         currentOrder.setPlaced_timestamp(new Timestamp(System.currentTimeMillis()));
-        System.out.println("Enter Delevery date in the format 'yyyy-MM-dd HH:mm:ss' inter hours in 24 format");
-        String tempStamp = inScan.nextLine();
-        
-        //SimpleDateFormat STAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh24:mm:ss");
-        //Date TS= STAMP_FORMAT.parse(tempStamp);
-        currentOrder.setDelivery_timestamp(Timestamp.valueOf(tempStamp));
         OrderService os = new OrderService(con);
         os.add(currentOrder);
 

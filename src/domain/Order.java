@@ -9,8 +9,8 @@ public class Order {
     String user_id; //varchar
     float tip; //number(5,2)
     float total_price;//number(7,2)
-    Timestamp placed_timestamp; //int
-    Timestamp delivery_timestamp; //int
+    Timestamp placed_timestamp; //timestamp
+    Timestamp delivery_timestamp; //timestamp
     String card_id; //varchar
     String instuctions; //carchar
     String delivery_method_id; //varchar

@@ -274,9 +274,11 @@ public class Tiger {
             System.out.println("Tip Changed to: $" + newTip);
         }
         if (input == 2) {
-            Timestamp newDelivery_timestamp = null;
-            currentOrder.setDelivery_timestamp(newDelivery_timestamp);
-            System.out.println("Delivery Time Changed to: " + newDelivery_timestamp);
+            Scanner inScan = new Scanner(System.in);
+            System.out.println("Enter Delevery date in the format 'yyyy-mm-dd hh:mm:ss' enter hours in 24 format");
+            String tS = inScan.nextLine();
+            currentOrder.setDelivery_timestamp(Timestamp.valueOf(tS));
+            System.out.println("Delivery Time Changed to: " + currentOrder.getDelivery_timestamp());
         }
         if (input == 3) {
             String newInstructions = editString();
