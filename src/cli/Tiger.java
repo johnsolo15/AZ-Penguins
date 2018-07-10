@@ -44,6 +44,8 @@ public class Tiger {
         options.add("Login");
         options.add("Register");
         options.add("Quit");
+        StoreService ss = new StoreService(con);
+        currentStore = ss.getById("0");
         int count = 0;
         for (String option : options) {
             count++;
@@ -86,8 +88,6 @@ public class Tiger {
             currentOrder.setUser_id(currentUser.getUserId());
             currentOrder.setDelivery_status_id("0");
             //currentOrder.setCard_id();
-            StoreService ss = new StoreService(con);
-            currentStore = ss.getById("0");
             homeScreen();
         } else {
             System.out.println("Wrong email or password");
