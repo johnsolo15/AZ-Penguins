@@ -15,6 +15,7 @@ import domain.Menu;
 import domain.Order;
 import domain.Store;
 import domain.User;
+import java.sql.Timestamp;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -523,7 +524,7 @@ public class Tiger {
                     {
                         gate++;
                         int newDelivery_timestamp = Integer.parseInt(editString());
-                        currentOrder.setDelivery_timestamp(newDelivery_timestamp);
+                        //currentOrder.setDelivery_timestamp(newDelivery_timestamp);
                         System.out.println("Delivery Time Changed to: " + newDelivery_timestamp);
                         currentOrderScreen();
                     }

@@ -1,5 +1,6 @@
 package domain;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Order {
@@ -8,8 +9,8 @@ public class Order {
     String user_id; //varchar
     float tip; //number(5,2)
     float total_price;//number(7,2)
-    int placed_timestamp; //int
-    int delivery_timestamp; //int
+    Timestamp placed_timestamp; //timestamp
+    Timestamp delivery_timestamp; //timestamp
     String card_id; //varchar
     String instuctions; //carchar
     String delivery_method_id; //varchar
@@ -19,8 +20,8 @@ public class Order {
     //Array to hold order items rather than the order_items table
     ArrayList<String> item_ids = new ArrayList<String>();
 
-    public Order(String order_id, String user_id, float tip, float total_price, int placed_timestamp,
-            int delivery_timestamp, String card_id, String instuctions, String delivery_method_id, String store_id,
+    public Order(String order_id, String user_id, float tip, float total_price, Timestamp placed_timestamp,
+            Timestamp delivery_timestamp, String card_id, String instuctions, String delivery_method_id, String store_id,
             String delivery_status_id, ArrayList<String> item_ids) {
         super();
         this.order_id = order_id;
@@ -41,8 +42,8 @@ public class Order {
         super();
         this.tip = 0;
         this.total_price = 0;
-        this.placed_timestamp = 0;
-        this.delivery_timestamp = 0;
+        this.placed_timestamp = null;
+        this.delivery_timestamp = null;
         this.instuctions = "";
         this.delivery_method_id = "0";
         this.store_id = "0";
@@ -93,19 +94,19 @@ public class Order {
         this.total_price = total_price;
     }
 
-    public int getPlaced_timestamp() {
+    public Timestamp getPlaced_timestamp() {
         return placed_timestamp;
     }
 
-    public void setPlaced_timestamp(int placed_timestamp) {
+    public void setPlaced_timestamp(Timestamp placed_timestamp) {
         this.placed_timestamp = placed_timestamp;
     }
 
-    public int getDelivery_timestamp() {
+    public Timestamp getDelivery_timestamp() {
         return delivery_timestamp;
     }
 
-    public void setDelivery_timestamp(int delivery_timestamp) {
+    public void setDelivery_timestamp(Timestamp delivery_timestamp) {
         this.delivery_timestamp = delivery_timestamp;
     }
 

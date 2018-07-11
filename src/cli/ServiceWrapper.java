@@ -8,6 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import domain.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import services.MenuServices;
 import services.OrderService;
@@ -82,9 +89,12 @@ public class ServiceWrapper {
     }
 
     public void submitOrder(Order currentOrder) {
+        //Scanner inScan = new Scanner(System.in);
         // TODO Auto-generated method stub
 
         currentOrder.setDelivery_status_id("0");
+        //create placed timestamp at submit
+        currentOrder.setPlaced_timestamp(new Timestamp(System.currentTimeMillis()));
         OrderService os = new OrderService(con);
         os.add(currentOrder);
 
