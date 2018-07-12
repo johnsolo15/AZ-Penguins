@@ -12,7 +12,10 @@ import domain.Menu;
 import domain.Order;
 import domain.Store;
 import domain.User;
+import java.text.ParseException;
 import services.CardService;
+import services.DeliveryMethod;
+import services.DeliveryMethodService;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -60,7 +63,21 @@ public class AdminAndManager {
                 break;
             }
             case 3:
-                optionsScreen("Delivery Method");
+                option = optionsScreen("Delivery Method");
+                switch (option) {
+                    case 1:
+                        alterDeliveryMethodScreen();
+                        break;
+                    case 2:
+                        addDeliveryMethodScreen();
+                        break;
+                    case 3:
+                        deleteDeliveryMethodScreen();
+                        break;
+                    case 4:
+                        adminScreen();
+                        break;
+                }
             case 4:
                 optionsScreen("Delivery Statuse");
             case 5: {
@@ -206,6 +223,83 @@ public class AdminAndManager {
         aam.adminScreen();
     }
 
+    public static void addDeliveryMethodScreen() {
+        System.out.println("Add a delivery method");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nEnter delivery method id: ");
+        String id = sc.nextLine();
+        System.out.println("\nEnter delivery method type: ");
+        String method = sc.nextLine();
+        DeliveryMethod dm = new DeliveryMethod(id, method);
+        DeliveryMethodService dms = new DeliveryMethodService(con);
+        if (dms.add(dm)) {
+            System.out.println("Added delivery method");
+        }  else {
+            System.out.println("Couldn't add delivery method");
+        }
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
+    public static void deleteDeliveryMethodScreen() {
+        System.out.println("List of delivery methods");
+        DeliveryMethodService dms = new DeliveryMethodService(con);
+        ArrayList<DeliveryMethod> methods = dms.getAll();
+        int count = 1;
+        for (DeliveryMethod m : methods) {
+            System.out.println(count + ". " + m.getDelivery_method());
+            count++;
+        }
+        System.out.println("Select delivery method you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = methods.get(num - 1).getDelivery_method_id();
+                dms.deleteById(id);
+                System.out.println("Delivery method deleted");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
+    public static void alterDeliveryMethodScreen() {
+        System.out.println("List of delivery methods");
+        DeliveryMethodService dms = new DeliveryMethodService(con);
+        ArrayList<DeliveryMethod> methods = dms.getAll();
+        int count = 1;
+        for (DeliveryMethod m : methods) {
+            System.out.println(count + ". " + m.getDelivery_method());
+            count++;
+        }
+        System.out.println("Select delivery method you'd like to alter");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = methods.get(num - 1).getDelivery_method_id();
+                System.out.println("\nEnter delivery method type: ");
+                String method = sc.nextLine();
+                DeliveryMethod dm = new DeliveryMethod(id, method);
+                dms.update(dm);
+                System.out.println("Delivery method updated");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
     public static void addItemScreen() {
         System.out.println("Add an item");
         Scanner sc = new Scanner(System.in);
