@@ -427,17 +427,22 @@ public class AdminAndManager {
         ArrayList<Menu> menus = ms.getAll();
         ServiceWrapper.printMenuItems(menus);
         Scanner sc = new Scanner(System.in);
-        int input = sc.nextInt();
-        if (input == menus.size() + 1) {
-            return;
+        while (true) {
+            try {
+                int input = Integer.parseInt(sc.nextLine());
+                if (input == menus.size() + 1) {
+                    return;
+                }
+                MenuServices menServ = new MenuServices(con);
+                menServ.deleteById(menus.get(input - 1).getId());
+                System.out.println("Deleted " + menus.get(input - 1).getName());
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
         }
-        if (input == menus.size() + 2) {
-            System.exit(0);
-        }
-        MenuServices menServ = new MenuServices(con);
-
-        menServ.deleteById(menus.get(input - 1).getId());
-        System.out.println("Deleted " + menus.get(input - 1).getName());
     }
 
     public static void alterItemScreen() {
