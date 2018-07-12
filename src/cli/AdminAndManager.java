@@ -16,6 +16,8 @@ import java.text.ParseException;
 import services.CardService;
 import services.DeliveryMethod;
 import services.DeliveryMethodService;
+import services.DeliveryStatus;
+import services.DeliveryStatusService;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -79,7 +81,21 @@ public class AdminAndManager {
                         break;
                 }
             case 4:
-                optionsScreen("Delivery Statuse");
+                option = optionsScreen("Delivery Status");
+                switch (option) {
+                    case 1:
+                        alterDeliveryStatusScreen();
+                        break;
+                    case 2:
+                        addDeliveryStatusScreen();
+                        break;
+                    case 3:
+                        deleteDeliveryStatusScreen();
+                        break;
+                    case 4:
+                        adminScreen();
+                        break;
+                }
             case 5: {
                 option = optionsScreen("Item");
                 switch (option) {
@@ -289,6 +305,80 @@ public class AdminAndManager {
                 DeliveryMethod dm = new DeliveryMethod(id, method);
                 dms.update(dm);
                 System.out.println("Delivery method updated");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
+    public static void addDeliveryStatusScreen() {
+        System.out.println("Add a delivery status");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nEnter delivery status id: ");
+        String id = sc.nextLine();
+        System.out.println("\nEnter delivery status type: ");
+        String status = sc.nextLine();
+        DeliveryStatus ds = new DeliveryStatus(id, status);
+        DeliveryStatusService dss = new DeliveryStatusService(con);
+        dss.add(ds);
+        System.out.println("Added delivery method");
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
+    public static void deleteDeliveryStatusScreen() {
+        System.out.println("List of delivery statuses");
+        DeliveryStatusService dss = new DeliveryStatusService(con);
+        ArrayList<DeliveryStatus> statuses = dss.getAll();
+        int count = 1;
+        for (DeliveryStatus s : statuses) {
+            System.out.println(count + ". " + s.getDelivery_status());
+            count++;
+        }
+        System.out.println("Select delivery status you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = statuses.get(num - 1).getDelivery_status_id();
+                dss.deleteByID(id);
+                System.out.println("Delivery status deleted");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        AdminAndManager aam = new AdminAndManager(con);
+        aam.adminScreen();
+    }
+    
+    public static void alterDeliveryStatusScreen() {
+        System.out.println("List of delivery statuses");
+        DeliveryStatusService dss = new DeliveryStatusService(con);
+        ArrayList<DeliveryStatus> statuses = dss.getAll();
+        int count = 1;
+        for (DeliveryStatus s : statuses) {
+            System.out.println(count + ". " + s.getDelivery_status());
+            count++;
+        }
+        System.out.println("Select delivery status you'd like to alter");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = statuses.get(num - 1).getDelivery_status_id();
+                System.out.println("\nEnter delivery status type: ");
+                String status = sc.nextLine();
+                DeliveryStatus ds = new DeliveryStatus(id, status);
+                dss.update(ds);
+                System.out.println("Delivery status updated");
                 break;
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Enter a number within range");
