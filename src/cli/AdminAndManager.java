@@ -80,6 +80,7 @@ public class AdminAndManager {
                         adminScreen();
                         break;
                 }
+                break;
             case 4:
                 option = optionsScreen("Delivery Status");
                 switch (option) {
@@ -96,6 +97,7 @@ public class AdminAndManager {
                         adminScreen();
                         break;
                 }
+                break;
             case 5: {
                 option = optionsScreen("Item");
                 switch (option) {
@@ -109,10 +111,7 @@ public class AdminAndManager {
                         deleteItemScreen();
                         break;
                     case 4:
-                        adminScreen();
                         break;
-                    case 5:
-                        System.exit(0);
                 }
                 break;
             }
@@ -447,30 +446,40 @@ public class AdminAndManager {
         ArrayList<Menu> menus = ms.getAll();
         ServiceWrapper.printMenuItems(menus);
         Scanner sc = new Scanner(System.in);
-        int input = sc.nextInt();
-        Menu men = menus.get(input - 1);
-        MenuServices menServ = new MenuServices(con);
-        System.out.println("Enter item name: ");
-        sc.nextLine();
-        String name = sc.nextLine();
-        System.out.println("Enter vegeterian (y or n): ");
-        String vege = sc.next();
-        char vegetarian = vege.charAt(0);
-        System.out.println("Enter a description: ");
-        sc.nextLine();
-        String description = sc.nextLine();
-        System.out.println("Enter type number id: ");
-        String type = sc.next();
-        System.out.println("Enter meal time: ");
-        String slot_ID = sc.next();
-        System.out.println("Enter photo link: ");
-        String photo = sc.next();
-        System.out.println("Enter a price: ");
-        float price = sc.nextFloat();
-        String id = men.getId();
-        Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
-        menServ.update(menUp);
-        System.out.println("Updated " + name);
+        while (true) {
+            try {
+                int input = Integer.parseInt(sc.nextLine());
+                if (input == menus.size() + 1) {
+                    return;
+                }
+                Menu men = menus.get(input - 1);
+                MenuServices menServ = new MenuServices(con);
+                System.out.println("Enter item name: ");
+                String name = sc.nextLine();
+                System.out.println("Enter vegeterian (y or n): ");
+                String vege = sc.nextLine();
+                char vegetarian = vege.charAt(0);
+                System.out.println("Enter a description: ");
+                String description = sc.nextLine();
+                System.out.println("Enter type number id: ");
+                String type = sc.nextLine();
+                System.out.println("Enter meal time: ");
+                String slot_ID = sc.nextLine();
+                System.out.println("Enter photo link: ");
+                String photo = sc.nextLine();
+                System.out.println("Enter a price: ");
+                float price = Float.parseFloat(sc.nextLine());
+                String id = men.getId();
+                Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
+                menServ.update(menUp);
+                System.out.println("Updated " + name);
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
     }
 
     public static void addUserScreen() {
