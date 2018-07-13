@@ -25,19 +25,23 @@ public class LocationService implements Service<Location> {
     public boolean add(Location location) {
         try {
             String locationId = location.getLocationId();
+            String userId = location.getUserId();
+            Float taxRate = location.getTaxRate();
             String street = location.getStreet();
             String city = location.getCity();
             String state = location.getState();
             String country = location.getCountry();
             String zip = location.getZip();
 
-            CallableStatement oCSF = connection.prepareCall("{?=call sp_insert_location(?,?,?,?,?)}");
-            oCSF.setString(2, locationId);
-            oCSF.setString(3, street);
-            oCSF.setString(4, city);
-            oCSF.setString(5, state);
-            oCSF.setString(6, country);
-            oCSF.setString(7, zip);
+            CallableStatement oCSF = connection.prepareCall("{call sp_insert_location(?,?,?,?,?,?,?,?)}");
+            oCSF.setString(1, locationId);
+            oCSF.setString(2, userId);
+            oCSF.setFloat(3, taxRate);
+            oCSF.setString(4, street);
+            oCSF.setString(5, city);
+            oCSF.setString(6, state);
+            oCSF.setString(7, country);
+            oCSF.setString(8, zip);
             oCSF.execute();
             oCSF.close();
             return true;
@@ -68,10 +72,12 @@ public class LocationService implements Service<Location> {
                 Location location = new Location(
                         locationsRs.getString(1),
                         locationsRs.getString(2),
-                        locationsRs.getString(3),
+                        locationsRs.getFloat(3),
                         locationsRs.getString(4),
                         locationsRs.getString(5),
-                        locationsRs.getString(6)
+                        locationsRs.getString(6),
+                        locationsRs.getString(7),
+                        locationsRs.getString(8)
                 );
                 locations.add(location);
             }
@@ -92,10 +98,12 @@ public class LocationService implements Service<Location> {
             location = new Location(
                     locationsRs.getString(1),
                     locationsRs.getString(2),
-                    locationsRs.getString(3),
+                    locationsRs.getFloat(3),
                     locationsRs.getString(4),
                     locationsRs.getString(5),
-                    locationsRs.getString(6)
+                    locationsRs.getString(6),
+                    locationsRs.getString(7),
+                    locationsRs.getString(8)
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -107,19 +115,25 @@ public class LocationService implements Service<Location> {
     public void update(Location location) {
         try {
             String locationId = location.getLocationId();
+            String userId = location.getUserId();
+            Float taxRate = location.getTaxRate();
             String street = location.getStreet();
             String city = location.getCity();
             String state = location.getState();
             String country = location.getCountry();
             String zip = location.getZip();
 
-            CallableStatement oCSF = connection.prepareCall("{?=call sp_update_location(?,?,?,?,?)}");
-            oCSF.setString(2, locationId);
-            oCSF.setString(3, street);
-            oCSF.setString(4, city);
-            oCSF.setString(5, state);
-            oCSF.setString(6, country);
-            oCSF.setString(7, zip);
+            CallableStatement oCSF = connection.prepareCall("{call sp_update_location(?,?,?,?,?,?,?,?)}");
+            oCSF.setString(1, locationId);
+            oCSF.setString(2, userId);
+            oCSF.setFloat(3, taxRate);
+            oCSF.setString(4, street);
+            oCSF.setString(5, city);
+            oCSF.setString(6, state);
+            oCSF.setString(7, country);
+            oCSF.setString(8, zip);
+            oCSF.execute();
+            oCSF.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -137,10 +151,12 @@ public class LocationService implements Service<Location> {
                 Location location = new Location(
                         locationsRs.getString(1),
                         locationsRs.getString(2),
-                        locationsRs.getString(3),
+                        locationsRs.getFloat(3),
                         locationsRs.getString(4),
                         locationsRs.getString(5),
-                        locationsRs.getString(6)
+                        locationsRs.getString(6),
+                        locationsRs.getString(7),
+                        locationsRs.getString(8)
                 );
                 locations.add(location);
             }

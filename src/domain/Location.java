@@ -3,6 +3,8 @@ package domain;
 public class Location {
 
     String locationId;
+    String userId;
+    Float taxRate;
     String street;
     String city;
     String country;
@@ -13,9 +15,10 @@ public class Location {
         super();
     }
 
-    public Location(String locationId, String street, String city, String country, String state, String zip) {
-        super();
+    public Location(String locationId, String userId, Float taxRate, String street, String city, String country, String state, String zip) {
         this.locationId = locationId;
+        this.userId = userId;
+        this.taxRate = taxRate;
         this.street = street;
         this.city = city;
         this.country = country;
@@ -71,9 +74,26 @@ public class Location {
         this.zip = zip;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Float getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(Float taxRate) {
+        this.taxRate = taxRate;
+    }
+
     @Override
     public String toString() {
-        return "Locations [locationId=" + locationId + ", street=" + street + ", city=" + city + ", country="
+        return "Locations [locationId=" + locationId + ", userId=" + userId + ", taxRate=" 
+                + taxRate + ", street=" + street + ", city=" + city + ", country="
                 + country + ", state=" + state + ", zip=" + zip + "]";
     }
 

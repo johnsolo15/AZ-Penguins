@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import domain.Card;
 import domain.ItemType;
+import domain.Location;
 import domain.Menu;
 import domain.Order;
 import domain.Store;
@@ -20,6 +21,7 @@ import services.DeliveryMethodService;
 import services.DeliveryStatus;
 import services.DeliveryStatusService;
 import services.ItemTypeService;
+import services.LocationService;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -135,7 +137,20 @@ public class AdminAndManager {
                 }
                 break;
             case 7:
-                optionsScreen("Location");
+                option = optionsScreen("Location");
+                switch (option) {
+                    case 1:
+                        alterLocationScreen();
+                        break;
+                    case 2:
+                        addLocationScreen();
+                        break;
+                    case 3:
+                        deleteLocationScreen();
+                        break;
+                    case 4:
+                        break;
+                }
                 break;
             case 8:
                 optionsScreen("Order");
@@ -566,6 +581,120 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
+    }
+    
+    public static void addLocationScreen() {
+        System.out.println("Add a location");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter location id: ");
+        String locationId = sc.nextLine();
+        System.out.println("Enter the user id: ");
+        String userId = sc.nextLine();
+        System.out.println("Enter the tax rate: ");
+        Float tax = null;
+        while (true) {  
+            try {
+                tax = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the street address: ");
+        String street = sc.nextLine();
+        System.out.println("Enter the city: ");
+        String city = sc.nextLine();
+        System.out.println("Enter the state: ");
+        String state = sc.nextLine();
+        System.out.println("Enter the country: ");
+        String country = sc.nextLine();
+        System.out.println("Enter the zip code: ");
+        String zip = sc.nextLine();
+        Location loc = new Location(locationId, userId, tax, street, city, country, state, zip);
+        LocationService ls = new LocationService(con);
+        if (ls.add(loc)) {
+            System.out.println("Location added");
+        } else {
+            System.out.println("Couldn't add location");
+        }
+    }
+    
+    public static void deleteLocationScreen() {
+        System.out.println("List of locations");
+        LocationService ls = new LocationService(con);
+        ArrayList<Location> locations = ls.getAll();
+        int count = 1;
+        System.out.println(locations.size());
+        for (Location l : locations) {
+            System.out.println(count + ". " + l.getStreet() + ", " + l.getCity());
+            count++;
+        }
+        System.out.println("Select location you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = locations.get(num - 1).getLocationId();
+                ls.deleteById(id);
+                System.out.println("Item type deleted");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void alterLocationScreen() {
+        System.out.println("List of locations");
+        LocationService ls = new LocationService(con);
+        ArrayList<Location> locations = ls.getAll();
+        int count = 1;
+        for (Location l : locations) {
+            System.out.println(count + ". " + l.getStreet() + ", " + l.getCity());
+            count++;
+        }
+        Scanner sc = new Scanner(System.in);
+        String locationId = null;
+        while (true) {
+            try {
+                int input = Integer.parseInt(sc.nextLine());
+                locationId = locations.get(input - 1).getLocationId();
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the user id: ");
+        String userId = sc.nextLine();
+        System.out.println("Enter the tax rate: ");
+        Float tax = null;
+        while (true) {
+            try {
+                tax = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the street address: ");
+        String street = sc.nextLine();
+        System.out.println("Enter the city: ");
+        String city = sc.nextLine();
+        System.out.println("Enter the state: ");
+        String state = sc.nextLine();
+        System.out.println("Enter the country: ");
+        String country = sc.nextLine();
+        System.out.println("Enter the zip code: ");
+        String zip = sc.nextLine();
+        Location loc = new Location(locationId, userId, tax, street, city, country, state, zip);
+        ls.update(loc);
+        System.out.println("Location updated");
     }
 
     public static void addUserScreen() {
