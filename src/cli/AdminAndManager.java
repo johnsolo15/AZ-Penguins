@@ -470,33 +470,14 @@ public class AdminAndManager {
         ArrayList<Menu> menus = ms.getAll();
         ServiceWrapper.printMenuItems(menus);
         Scanner sc = new Scanner(System.in);
+        String id;
         while (true) {
             try {
                 int input = Integer.parseInt(sc.nextLine());
                 if (input == menus.size() + 1) {
                     return;
                 }
-                Menu men = menus.get(input - 1);
-                MenuServices menServ = new MenuServices(con);
-                System.out.println("Enter item name: ");
-                String name = sc.nextLine();
-                System.out.println("Enter vegeterian (y or n): ");
-                String vege = sc.nextLine();
-                char vegetarian = vege.charAt(0);
-                System.out.println("Enter a description: ");
-                String description = sc.nextLine();
-                System.out.println("Enter type number id: ");
-                String type = sc.nextLine();
-                System.out.println("Enter meal time: ");
-                String slot_ID = sc.nextLine();
-                System.out.println("Enter photo link: ");
-                String photo = sc.nextLine();
-                System.out.println("Enter a price: ");
-                float price = Float.parseFloat(sc.nextLine());
-                String id = men.getId();
-                Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
-                menServ.update(menUp);
-                System.out.println("Updated " + name);
+                id = menus.get(input - 1).getId();
                 break;
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Enter a number within range");
@@ -504,6 +485,32 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
+        System.out.println("Enter item name: ");
+        String name = sc.nextLine();
+        System.out.println("Enter vegeterian (y or n): ");
+        String vege = sc.nextLine();
+        char vegetarian = vege.charAt(0);
+        System.out.println("Enter a description: ");
+        String description = sc.nextLine();
+        System.out.println("Enter type number id: ");
+        String type = sc.nextLine();
+        System.out.println("Enter meal time: ");
+        String slot_ID = sc.nextLine();
+        System.out.println("Enter photo link: ");
+        String photo = sc.nextLine();
+        System.out.println("Enter a price: ");
+        float price;
+        while (true) {
+            try {
+                price = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
+        ms.update(menUp);
+        System.out.println("Updated " + name);
     }
     
     public static void addItemTypeScreen() {
@@ -671,13 +678,11 @@ public class AdminAndManager {
         System.out.println("Enter the user id: ");
         String userId = sc.nextLine();
         System.out.println("Enter the tax rate: ");
-        Float tax = null;
+        float tax;
         while (true) {
             try {
                 tax = Float.parseFloat(sc.nextLine());
                 break;
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Enter a number within range");
             } catch (NumberFormatException e) {
                 System.out.println("Enter a number");
             }
