@@ -47,10 +47,11 @@ create table users(
 	phone varchar(4000),
 	email varchar(4000) not null unique,
 	password varchar(4000) not null,
-	user_status_id varchar(4000) references user_statuses(user_status_id)
+	user_status_id varchar(4000) references user_statuses(user_status_id),
+  location_id number references locations(location_id)
 );
 create table locations(
-	location_id varchar(4000) primary key,
+	location_id number,
 	user_id varchar(4000) references users(user_id),
 	tax_rate number(5,2),
 	street varchar(4000),
@@ -61,6 +62,22 @@ create table locations(
 	constraint limit_tax
 	check(tax_rate between 0 and 100.00)
 );
+
+ALTER TABLE LOCATIONS ADD (
+  CONSTRAINT loc_pk PRIMARY KEY (location_id));
+  
+CREATE SEQUENCE loc_id START WITH 1;
+
+CREATE OR REPLACE TRIGGER loc_bir 
+BEFORE INSERT ON locations 
+FOR EACH ROW
+
+BEGIN
+  SELECT loc_id.NEXTVAL
+  INTO   :new.location_id
+  FROM   dual;
+END;
+
 create table cards(
 	card_id varchar(4000) primary key,
 	user_id varchar(4000) references users(user_id) ON DELETE CASCADE,
@@ -70,7 +87,7 @@ create table cards(
 );
 create table stores(
 	store_id varchar(4000) primary key,
-	location_id varchar(4000) references locations(location_id),
+	location_id number(9) references locations(location_id),
 	store varchar(4000),
 	phone_number int,
 	manager_id varchar(4000) references users(user_id),
@@ -82,8 +99,8 @@ create table orders(
 	user_id varchar(4000) references users(user_id),
 	tip number(5,2),
 	total_price number(7,2),
-	placed_timestamp int,
-	delivery_timestamp int,
+	placed_timestamp Timestamp(3),
+	delivery_timestamp Timestamp(3),
 	card_id varchar(4000) references cards(card_id),
 	instructions varchar(4000),
 	delivery_method_id varchar(4000) references delivery_methods(delivery_method_id),

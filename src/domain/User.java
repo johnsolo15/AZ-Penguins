@@ -11,14 +11,14 @@ public class User {
     String email;
     String password;
     String userStatusId;
-
+    int location_id;
     //ArrayList<Card> cards = new ArrayList<Card>();
     public User() {
         super();
     }
 
     public User(String userId, String firstName, String lastName, String phone, String email, String password,
-            String userStatusId) {
+            String userStatusId, int location_id) {
         super();
         this.userId = userId;
         this.firstName = firstName;
@@ -27,6 +27,8 @@ public class User {
         this.email = email;
         this.password = password;
         this.userStatusId = userStatusId;
+        this.location_id = location_id;
+        
     }
 
     public String getUserId() {
@@ -85,10 +87,18 @@ public class User {
         this.userStatusId = userStatusId;
     }
 
+    public int getLocation_id() {
+        return location_id;
+    }
+
+    public void setLocation_id(int location_id) {
+        this.location_id = location_id;
+    }
+
     @Override
     public String toString() {
         return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-                + ", email=" + email + ", password=" + password + ", userStatusId=" + userStatusId + "]";
+                + ", email=" + email + ", password=" + password + ", userStatusId=" + userStatusId +"Location Id= "+location_id +"]";
     }
 
 }

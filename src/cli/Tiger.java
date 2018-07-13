@@ -34,7 +34,7 @@ public class Tiger {
 
     public static void main(String[] args) {
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Class.forName("oracle.jdbc.OracleDriver");
             con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "db_uSpring", "pass");
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,6 +163,11 @@ public class Tiger {
             String first = "";
             String last = "";
             String phone = "";
+            String street = "";
+            String city ="";
+            String state = "";
+            String country = "";
+            String zip = "";
             gate = 0;
 
             while(gate == 0)
@@ -250,9 +255,19 @@ public class Tiger {
 
 
             }
-        
+            
+            System.out.println("Enter street:");
+            street = sc.nextLine();
+            System.out.println("Enter city:");
+            city = sc.nextLine();
+            System.out.println("Enter state:");
+            state = sc.nextLine();
+            System.out.println("Enter country:");
+            country = sc.nextLine();
+            System.out.println("Enter zip:");
+            zip = sc.nextLine();
             System.out.println("Registered");
-            currentUser = sw.register(first, last, phone, email, password);
+            currentUser = sw.register(first, last, phone, email, password, street, city, state, country, zip);
             currentOrder = new Order();
             currentOrder.setOrder_id(Double.toString(Math.random() * 10001));
             currentOrder.setUser_id(currentUser.getUserId());
@@ -523,9 +538,11 @@ public class Tiger {
                     if (input == 2) 
                     {
                         gate++;
-                        int newDelivery_timestamp = Integer.parseInt(editString());
-                        //currentOrder.setDelivery_timestamp(newDelivery_timestamp);
-                        System.out.println("Delivery Time Changed to: " + newDelivery_timestamp);
+                        Scanner inScan = new Scanner(System.in);
+                        System.out.println("Enter Delevery date in the format 'yyyy-mm-dd hh:mm:ss' enter hours in 24 format");
+                        String tS = inScan.nextLine();
+                        currentOrder.setDelivery_timestamp(Timestamp.valueOf(tS));
+                        System.out.println("Delivery Time Changed to: " + currentOrder.getDelivery_timestamp());
                         currentOrderScreen();
                     }
                     if (input == 3) 

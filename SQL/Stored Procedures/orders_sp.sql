@@ -1,6 +1,6 @@
 -- Procedures
 CREATE OR REPLACE PROCEDURE AddOrder(OrderID VARCHAR2, UserID VARCHAR2, 
-Tip NUMBER, TotalPrice NUMBER, PlacedTimestamp NUMBER, DeliveryTimestamp NUMBER,
+Tip NUMBER, TotalPrice NUMBER, PlacedTimestamp timestamp, DeliveryTimestamp timestamp,
 CardID VARCHAR2, Instructions VARCHAR2, DeliveryMethodID VARCHAR2, 
 StoreID VARCHAR2, DeliveryStatusID VARCHAR2)
 AS
@@ -14,7 +14,7 @@ BEGIN
 END;
 
 CREATE OR REPLACE PROCEDURE UpdateOrder(OrderID VARCHAR2, UserID VARCHAR2, 
-Tip NUMBER, TotalPrice NUMBER, PlacedTimestamp NUMBER, DeliveryTimestamp NUMBER,
+Tip NUMBER, TotalPrice NUMBER, PlacedTimestamp timestamp, DeliveryTimestamp timestamp,
 CardID VARCHAR2, Instructions VARCHAR2, DeliveryMethodID VARCHAR2, 
 StoreID VARCHAR2, DeliveryStatusID VARCHAR2)
 AS

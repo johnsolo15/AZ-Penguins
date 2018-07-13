@@ -75,14 +75,14 @@ insert into users
 	values ('3','Bobby','Banned','6666665566','bob@mail.com','pass','2');
 
 
-insert into locations
-	values ('0','0',50.5,'100 example st', 'townville', 'WA', 'USA','01440');
-insert into locations
-	values ('1','1',56.5,'700 example st', 'wayland', 'MA', 'USA','34567');
-insert into locations
-	values ('2','2',20.4,'600 example st', 'billsville', 'FL', 'USA','08990');
-insert into locations
-	values ('3','3',20.4,'600 example st', 'bannedville', 'FL', 'USA','08990');
+insert into locations (USER_ID, TAX_RATE, STREET, CITY, STATE, COUNTRY, ZIP)
+	values ('0',50.5,'100 example st', 'townville', 'WA', 'USA','01440');
+insert into locations (USER_ID, TAX_RATE, STREET, CITY, STATE, COUNTRY, ZIP)
+	values ('1',56.5,'700 example st', 'wayland', 'MA', 'USA','34567');
+insert into locations (USER_ID, TAX_RATE, STREET, CITY, STATE, COUNTRY, ZIP)
+	values ('2',20.4,'600 example st', 'billsville', 'FL', 'USA','08990');
+insert into locations (USER_ID, TAX_RATE, STREET, CITY, STATE, COUNTRY, ZIP)
+	values ('3',20.4,'600 example st', 'bannedville', 'FL', 'USA','08990');
 
 insert into cards
 	values ('0','0',5,(TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss')) ,123);
@@ -96,7 +96,7 @@ insert into cards
 	values ('4','3',642645,(TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss')) ,123);
 
 insert into stores
-	values ('0','0','Deer Valley',1,0,0800,2100);
+	values ('0',0,'Deer Valley',1,0,0800,2100);
 
 insert into orders 
 	values ('0','0',2.50,15.50,0,0,'0','hey','0','0','0');

@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import domain.User;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserService implements Service<User> {
 
@@ -73,7 +76,8 @@ public class UserService implements Service<User> {
                         usersRs.getString(4),
                         usersRs.getString(5),
                         usersRs.getString(6),
-                        usersRs.getString(7)
+                        usersRs.getString(7),
+                        usersRs.getInt(8)
                 );
                 users.add(user);
             }
@@ -98,7 +102,8 @@ public class UserService implements Service<User> {
                     usersRs.getString(4),
                     usersRs.getString(5),
                     usersRs.getString(6),
-                    usersRs.getString(7)
+                    usersRs.getString(7),
+                    usersRs.getInt(8)
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -126,7 +131,8 @@ public class UserService implements Service<User> {
                     usersRs.getString(4),
                     usersRs.getString(5),
                     usersRs.getString(6),
-                    usersRs.getString(7)
+                    usersRs.getString(7),
+                    usersRs.getInt(8)
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -159,5 +165,21 @@ public class UserService implements Service<User> {
             System.out.println(e.getMessage());
         }
     }
-
+//get location id from locations table
+    public int getLocationID(String u_id){
+        int loc_id;
+        try {
+            CallableStatement oCSF = connection.prepareCall("{?=call FN_GETLOCATIONID(?)}");
+            oCSF.setString(2, u_id);
+            oCSF.registerOutParameter(1, Types.INTEGER);
+            oCSF.execute();
+            loc_id=oCSF.getInt(1);
+            oCSF.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            return 1;
+        }
+        
+        return loc_id;
+    }
 }

@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import services.LocationService;
 
 import services.MenuServices;
 import services.OrderService;
@@ -42,14 +43,20 @@ public class ServiceWrapper {
         }
     }
 
-    public User register(String firstName, String lastName, String phone, String email, String password) {
-        //, String street, String city, String state, String country, String zip, String userStatus
-        boolean result = false;
+    public User register(String firstName, String lastName, String phone, String email, String password, String street, String city, String state, String country, String zip) {
+        // String userStatus
+        boolean result = false, locResult = false;
         String userId = Double.toString(Math.random() * 10001);
         String userStatusId = "1";
-
-        User user = new User(userId, firstName, lastName, phone, email, password, userStatusId);
+        
+        Location temploc = new Location(userId, street, city, state, country, zip);
+        LocationService loc = new LocationService(con);
+        locResult = loc.add(temploc);
+        
         UserService us = new UserService(con);
+        int address = us.getLocationID(userId);
+        User user = new User(userId, firstName, lastName, phone, email, password, userStatusId, address);
+        us = new UserService(con);
         result = us.add(user);
         return user;
     }

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import domain.Location;
+import java.sql.PreparedStatement;
 
 public class LocationService implements Service<Location> {
 
@@ -22,23 +23,26 @@ public class LocationService implements Service<Location> {
         this.connection = connection;
     }
 
+    @Override
     public boolean add(Location location) {
         try {
-            String locationId = location.getLocationId();
+            CallableStatement oCSF;
+            String userId = location.getUserId();
             String street = location.getStreet();
             String city = location.getCity();
             String state = location.getState();
             String country = location.getCountry();
             String zip = location.getZip();
 
-            CallableStatement oCSF = connection.prepareCall("{?=call sp_insert_location(?,?,?,?,?)}");
-            oCSF.setString(2, locationId);
-            oCSF.setString(3, street);
-            oCSF.setString(4, city);
-            oCSF.setString(5, state);
-            oCSF.setString(6, country);
-            oCSF.setString(7, zip);
-            oCSF.execute();
+            oCSF = connection.prepareCall("{call SP_INSERT_LOCATION(?,?,?,?,?,?,?)}");
+            oCSF.setString(1,userId);
+            oCSF.setDouble(2,18.4);
+            oCSF.setString(3,street);
+            oCSF.setString(4,city);
+            oCSF.setString(5,state);
+            oCSF.setString(6,country);
+            oCSF.setString(7,zip);
+            oCSF.executeUpdate();
             oCSF.close();
             return true;
         } catch (SQLException e) {
@@ -106,7 +110,7 @@ public class LocationService implements Service<Location> {
 
     public void update(Location location) {
         try {
-            String locationId = location.getLocationId();
+            
             String street = location.getStreet();
             String city = location.getCity();
             String state = location.getState();
@@ -114,7 +118,7 @@ public class LocationService implements Service<Location> {
             String zip = location.getZip();
 
             CallableStatement oCSF = connection.prepareCall("{?=call sp_update_location(?,?,?,?,?)}");
-            oCSF.setString(2, locationId);
+           
             oCSF.setString(3, street);
             oCSF.setString(4, city);
             oCSF.setString(5, state);
