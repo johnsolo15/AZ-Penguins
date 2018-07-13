@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import domain.Card;
+import domain.ItemType;
 import domain.Menu;
 import domain.Order;
 import domain.Store;
@@ -18,6 +19,7 @@ import services.DeliveryMethod;
 import services.DeliveryMethodService;
 import services.DeliveryStatus;
 import services.DeliveryStatusService;
+import services.ItemTypeService;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -116,7 +118,21 @@ public class AdminAndManager {
                 break;
             }
             case 6:
-                optionsScreen("Item Type");
+                option = optionsScreen("Item Type");
+                switch (option) {
+                    case 1:
+                        alterItemTypeScreen();
+                        break;
+                    case 2:
+                        addItemTypeScreen();
+                        break;
+                    case 3:
+                        deleteItemTypeScreen();
+                        break;
+                    case 4:
+                        break;
+                }
+                break;
             case 7:
                 optionsScreen("Location");
             case 8:
@@ -478,6 +494,83 @@ public class AdminAndManager {
                 Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
                 menServ.update(menUp);
                 System.out.println("Updated " + name);
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void addItemTypeScreen() {
+        System.out.println("Add a item type");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nEnter item type id: ");
+        String id = sc.nextLine();
+        System.out.println("\nEnter item type: ");
+        String type = sc.nextLine();
+        ItemType it = new ItemType(id, type);
+        ItemTypeService its = new ItemTypeService(con);
+        if (its.add(it)) {
+            System.out.println("Added item type");
+        } else {
+            System.out.println("Couldn't add item type");
+        }
+    }
+    
+    public static void deleteItemTypeScreen() {
+        System.out.println("List of item types");
+        ItemTypeService its = new ItemTypeService(con);
+        ArrayList<ItemType> types = its.getAll();
+        int count = 1;
+        for (ItemType t : types) {
+            System.out.println(count + ". " + t.getItem_type());
+            count++;
+        }
+        System.out.println("Select item type you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = types.get(num - 1).getItem_type_id();
+                if (its.deleteById(id)) {
+                    System.out.println("Item type deleted");
+                } else {
+                    System.out.println("Couldn't delete item type");
+                }
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void alterItemTypeScreen() {
+        System.out.println("List of item types");
+        ItemTypeService its = new ItemTypeService(con);
+        ArrayList<ItemType> types = its.getAll();
+        int count = 1;
+        for (ItemType t : types) {
+            System.out.println(count + ". " + t.getItem_type());
+            count++;
+        }
+        System.out.println("Select item types you'd like to alter");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = types.get(num - 1).getItem_type_id();
+                System.out.println("\nEnter item type: ");
+                String status = sc.nextLine();
+                ItemType it = new ItemType(id, status);
+                if (its.update(it)) {
+                    System.out.println("Item type updated");
+                } else {
+                    System.out.println("Couldn't update item type");
+                }
                 break;
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Enter a number within range");
