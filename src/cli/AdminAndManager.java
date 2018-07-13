@@ -57,12 +57,15 @@ public class AdminAndManager {
                 switch (option) {
                     case 1:
                         alterCardScreen();
+                        break;
                     case 2:
                         addCardScreen();
+                        break;
                     case 3:
                         deleteCardScreen();
+                        break;
                     case 4:
-                        adminScreen();
+                        break;
                 }
                 break;
             }
@@ -79,7 +82,6 @@ public class AdminAndManager {
                         deleteDeliveryMethodScreen();
                         break;
                     case 4:
-                        adminScreen();
                         break;
                 }
                 break;
@@ -96,7 +98,6 @@ public class AdminAndManager {
                         deleteDeliveryStatusScreen();
                         break;
                     case 4:
-                        adminScreen();
                         break;
                 }
                 break;
@@ -135,26 +136,33 @@ public class AdminAndManager {
                 break;
             case 7:
                 optionsScreen("Location");
+                break;
             case 8:
                 optionsScreen("Order");
+                break;
             case 9:
                 optionsScreen("Order Item");
+                break;
             case 10: {
                 option = optionsScreen("User");
                 switch (option) {
                     case 1:
                         System.out.println("not yet supported");
+                        break;
                     case 2:
                         addUserScreen();
+                        break;
                     case 3:
                         deleteUserScreen();
+                        break;
                 }
-
+                break;
             }
             case 11:
                 optionsScreen("User Statuse");
+                break;
             case 12:
-                adminScreen();
+                break;
             case 13:
                 System.exit(0);
         }
@@ -198,8 +206,6 @@ public class AdminAndManager {
 
         CardService cs = new CardService(con);
         cs.add(c);
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
 
     public static void deleteCardScreen() {
@@ -216,7 +222,6 @@ public class AdminAndManager {
         int input = sc.nextInt();
         cs.deleteById(cl.get(input - 1).getCardId());
         System.out.println("Deleted Card");
-
     }
 
     public static void alterCardScreen() {
@@ -248,10 +253,7 @@ public class AdminAndManager {
         String securityCode = sc.next();
 
         Card c = new Card(cardId, userId, cardNumber, expiryDate, securityCode);
-
         cs.update(c);
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
 
     public static void addDeliveryMethodScreen() {
@@ -268,8 +270,6 @@ public class AdminAndManager {
         }  else {
             System.out.println("Couldn't add delivery method");
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void deleteDeliveryMethodScreen() {
@@ -296,8 +296,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void alterDeliveryMethodScreen() {
@@ -327,8 +325,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void addDeliveryStatusScreen() {
@@ -342,8 +338,6 @@ public class AdminAndManager {
         DeliveryStatusService dss = new DeliveryStatusService(con);
         dss.add(ds);
         System.out.println("Added delivery method");
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void deleteDeliveryStatusScreen() {
@@ -370,8 +364,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void alterDeliveryStatusScreen() {
@@ -401,8 +393,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void addItemScreen() {
@@ -432,8 +422,6 @@ public class AdminAndManager {
         MenuServices menServ = new MenuServices(con);
         menServ.add(men);
         System.out.println("\n" + name + " added to database\n");
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
 
     }
 
@@ -600,9 +588,6 @@ public class AdminAndManager {
         User u = new User(userId, firstName, lastName, email, password, userStatusId, locationId);
         UserService us = new UserService(con);
         us.add(u);
-
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
 
     public static void deleteUserScreen() {
@@ -620,6 +605,5 @@ public class AdminAndManager {
         int input = sc.nextInt();
         us.deleteById(uArr.get(input - 1).getUserId());
         System.out.println(uArr.get(input - 1).getFirstName() + "has been deleted");
-
     }
 }
