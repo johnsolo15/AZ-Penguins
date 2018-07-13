@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import domain.Card;
+import domain.ItemType;
+import domain.Location;
 import domain.Menu;
 import domain.Order;
 import domain.Store;
@@ -18,6 +20,8 @@ import services.DeliveryMethod;
 import services.DeliveryMethodService;
 import services.DeliveryStatus;
 import services.DeliveryStatusService;
+import services.ItemTypeService;
+import services.LocationService;
 import services.MenuServices;
 import services.OrderService;
 import services.StoreService;
@@ -55,12 +59,15 @@ public class AdminAndManager {
                 switch (option) {
                     case 1:
                         alterCardScreen();
+                        break;
                     case 2:
                         addCardScreen();
+                        break;
                     case 3:
                         deleteCardScreen();
+                        break;
                     case 4:
-                        adminScreen();
+                        break;
                 }
                 break;
             }
@@ -77,7 +84,6 @@ public class AdminAndManager {
                         deleteDeliveryMethodScreen();
                         break;
                     case 4:
-                        adminScreen();
                         break;
                 }
                 break;
@@ -94,7 +100,6 @@ public class AdminAndManager {
                         deleteDeliveryStatusScreen();
                         break;
                     case 4:
-                        adminScreen();
                         break;
                 }
                 break;
@@ -116,29 +121,63 @@ public class AdminAndManager {
                 break;
             }
             case 6:
-                optionsScreen("Item Type");
+                option = optionsScreen("Item Type");
+                switch (option) {
+                    case 1:
+                        alterItemTypeScreen();
+                        break;
+                    case 2:
+                        addItemTypeScreen();
+                        break;
+                    case 3:
+                        deleteItemTypeScreen();
+                        break;
+                    case 4:
+                        break;
+                }
+                break;
             case 7:
-                optionsScreen("Location");
+                option = optionsScreen("Location");
+                switch (option) {
+                    case 1:
+                        alterLocationScreen();
+                        break;
+                    case 2:
+                        addLocationScreen();
+                        break;
+                    case 3:
+                        deleteLocationScreen();
+                        break;
+                    case 4:
+                        break;
+                }
+                break;
             case 8:
                 optionsScreen("Order");
+                break;
             case 9:
                 optionsScreen("Order Item");
+                break;
             case 10: {
                 option = optionsScreen("User");
                 switch (option) {
                     case 1:
                         System.out.println("not yet supported");
+                        break;
                     case 2:
                         addUserScreen();
+                        break;
                     case 3:
                         deleteUserScreen();
+                        break;
                 }
-
+                break;
             }
             case 11:
                 optionsScreen("User Statuse");
+                break;
             case 12:
-                adminScreen();
+                break;
             case 13:
                 System.exit(0);
         }
@@ -182,8 +221,6 @@ public class AdminAndManager {
 
         CardService cs = new CardService(con);
         cs.add(c);
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
 
     public static void deleteCardScreen() {
@@ -200,7 +237,6 @@ public class AdminAndManager {
         int input = sc.nextInt();
         cs.deleteById(cl.get(input - 1).getCardId());
         System.out.println("Deleted Card");
-
     }
 
     public static void alterCardScreen() {
@@ -232,10 +268,7 @@ public class AdminAndManager {
         String securityCode = sc.next();
 
         Card c = new Card(cardId, userId, cardNumber, expiryDate, securityCode);
-
         cs.update(c);
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
 
     public static void addDeliveryMethodScreen() {
@@ -252,8 +285,6 @@ public class AdminAndManager {
         }  else {
             System.out.println("Couldn't add delivery method");
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void deleteDeliveryMethodScreen() {
@@ -280,8 +311,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void alterDeliveryMethodScreen() {
@@ -311,8 +340,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void addDeliveryStatusScreen() {
@@ -326,8 +353,6 @@ public class AdminAndManager {
         DeliveryStatusService dss = new DeliveryStatusService(con);
         dss.add(ds);
         System.out.println("Added delivery method");
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void deleteDeliveryStatusScreen() {
@@ -354,8 +379,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void alterDeliveryStatusScreen() {
@@ -385,8 +408,6 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
     }
     
     public static void addItemScreen() {
@@ -416,8 +437,6 @@ public class AdminAndManager {
         MenuServices menServ = new MenuServices(con);
         menServ.add(men);
         System.out.println("\n" + name + " added to database\n");
-        AdminAndManager aam = new AdminAndManager(con);
-        aam.adminScreen();
 
     }
 
@@ -451,33 +470,14 @@ public class AdminAndManager {
         ArrayList<Menu> menus = ms.getAll();
         ServiceWrapper.printMenuItems(menus);
         Scanner sc = new Scanner(System.in);
+        String id;
         while (true) {
             try {
                 int input = Integer.parseInt(sc.nextLine());
                 if (input == menus.size() + 1) {
                     return;
                 }
-                Menu men = menus.get(input - 1);
-                MenuServices menServ = new MenuServices(con);
-                System.out.println("Enter item name: ");
-                String name = sc.nextLine();
-                System.out.println("Enter vegeterian (y or n): ");
-                String vege = sc.nextLine();
-                char vegetarian = vege.charAt(0);
-                System.out.println("Enter a description: ");
-                String description = sc.nextLine();
-                System.out.println("Enter type number id: ");
-                String type = sc.nextLine();
-                System.out.println("Enter meal time: ");
-                String slot_ID = sc.nextLine();
-                System.out.println("Enter photo link: ");
-                String photo = sc.nextLine();
-                System.out.println("Enter a price: ");
-                float price = Float.parseFloat(sc.nextLine());
-                String id = men.getId();
-                Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
-                menServ.update(menUp);
-                System.out.println("Updated " + name);
+                id = menus.get(input - 1).getId();
                 break;
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Enter a number within range");
@@ -485,6 +485,221 @@ public class AdminAndManager {
                 System.out.println("Enter a number");
             }
         }
+        System.out.println("Enter item name: ");
+        String name = sc.nextLine();
+        System.out.println("Enter vegeterian (y or n): ");
+        String vege = sc.nextLine();
+        char vegetarian = vege.charAt(0);
+        System.out.println("Enter a description: ");
+        String description = sc.nextLine();
+        System.out.println("Enter type number id: ");
+        String type = sc.nextLine();
+        System.out.println("Enter meal time: ");
+        String slot_ID = sc.nextLine();
+        System.out.println("Enter photo link: ");
+        String photo = sc.nextLine();
+        System.out.println("Enter a price: ");
+        float price;
+        while (true) {
+            try {
+                price = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        Menu menUp = new Menu(id, name, vegetarian, type, description, slot_ID, photo, price);
+        ms.update(menUp);
+        System.out.println("Updated " + name);
+    }
+    
+    public static void addItemTypeScreen() {
+        System.out.println("Add a item type");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nEnter item type id: ");
+        String id = sc.nextLine();
+        System.out.println("\nEnter item type: ");
+        String type = sc.nextLine();
+        ItemType it = new ItemType(id, type);
+        ItemTypeService its = new ItemTypeService(con);
+        if (its.add(it)) {
+            System.out.println("Added item type");
+        } else {
+            System.out.println("Couldn't add item type");
+        }
+    }
+    
+    public static void deleteItemTypeScreen() {
+        System.out.println("List of item types");
+        ItemTypeService its = new ItemTypeService(con);
+        ArrayList<ItemType> types = its.getAll();
+        int count = 1;
+        for (ItemType t : types) {
+            System.out.println(count + ". " + t.getItem_type());
+            count++;
+        }
+        System.out.println("Select item type you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = types.get(num - 1).getItem_type_id();
+                if (its.deleteById(id)) {
+                    System.out.println("Item type deleted");
+                } else {
+                    System.out.println("Couldn't delete item type");
+                }
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void alterItemTypeScreen() {
+        System.out.println("List of item types");
+        ItemTypeService its = new ItemTypeService(con);
+        ArrayList<ItemType> types = its.getAll();
+        int count = 1;
+        for (ItemType t : types) {
+            System.out.println(count + ". " + t.getItem_type());
+            count++;
+        }
+        System.out.println("Select item types you'd like to alter");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = types.get(num - 1).getItem_type_id();
+                System.out.println("\nEnter item type: ");
+                String status = sc.nextLine();
+                ItemType it = new ItemType(id, status);
+                if (its.update(it)) {
+                    System.out.println("Item type updated");
+                } else {
+                    System.out.println("Couldn't update item type");
+                }
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void addLocationScreen() {
+        System.out.println("Add a location");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter location id: ");
+        String locationId = sc.nextLine();
+        System.out.println("Enter the user id: ");
+        String userId = sc.nextLine();
+        System.out.println("Enter the tax rate: ");
+        Float tax = null;
+        while (true) {  
+            try {
+                tax = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the street address: ");
+        String street = sc.nextLine();
+        System.out.println("Enter the city: ");
+        String city = sc.nextLine();
+        System.out.println("Enter the state: ");
+        String state = sc.nextLine();
+        System.out.println("Enter the country: ");
+        String country = sc.nextLine();
+        System.out.println("Enter the zip code: ");
+        String zip = sc.nextLine();
+        Location loc = new Location(locationId, userId, tax, street, city, country, state, zip);
+        LocationService ls = new LocationService(con);
+        if (ls.add(loc)) {
+            System.out.println("Location added");
+        } else {
+            System.out.println("Couldn't add location");
+        }
+    }
+    
+    public static void deleteLocationScreen() {
+        System.out.println("List of locations");
+        LocationService ls = new LocationService(con);
+        ArrayList<Location> locations = ls.getAll();
+        int count = 1;
+        System.out.println(locations.size());
+        for (Location l : locations) {
+            System.out.println(count + ". " + l.getStreet() + ", " + l.getCity());
+            count++;
+        }
+        System.out.println("Select location you'd like to delete");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                int num = Integer.parseInt(sc.nextLine());
+                String id = locations.get(num - 1).getLocationId();
+                ls.deleteById(id);
+                System.out.println("Item type deleted");
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+    }
+    
+    public static void alterLocationScreen() {
+        System.out.println("List of locations");
+        LocationService ls = new LocationService(con);
+        ArrayList<Location> locations = ls.getAll();
+        int count = 1;
+        for (Location l : locations) {
+            System.out.println(count + ". " + l.getStreet() + ", " + l.getCity());
+            count++;
+        }
+        Scanner sc = new Scanner(System.in);
+        String locationId = null;
+        while (true) {
+            try {
+                int input = Integer.parseInt(sc.nextLine());
+                locationId = locations.get(input - 1).getLocationId();
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Enter a number within range");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the user id: ");
+        String userId = sc.nextLine();
+        System.out.println("Enter the tax rate: ");
+        float tax;
+        while (true) {
+            try {
+                tax = Float.parseFloat(sc.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a number");
+            }
+        }
+        System.out.println("Enter the street address: ");
+        String street = sc.nextLine();
+        System.out.println("Enter the city: ");
+        String city = sc.nextLine();
+        System.out.println("Enter the state: ");
+        String state = sc.nextLine();
+        System.out.println("Enter the country: ");
+        String country = sc.nextLine();
+        System.out.println("Enter the zip code: ");
+        String zip = sc.nextLine();
+        Location loc = new Location(locationId, userId, tax, street, city, country, state, zip);
+        ls.update(loc);
+        System.out.println("Location updated");
     }
 
     public static void addUserScreen() {
@@ -506,10 +721,14 @@ public class AdminAndManager {
         String locationId = sc.next();
 //        User u = new User(userId, firstName, lastName, email, password, userStatusId, locationId);
         UserService us = new UserService(con);
+<<<<<<< HEAD
         //us.add(u);
 
         AdminAndManager aam = new AdminAndManager(con);
         aam.adminScreen();
+=======
+        us.add(u);
+>>>>>>> 68c11d6f23183667a344dfedbf15d6402ce04347
     }
 
     public static void deleteUserScreen() {
@@ -527,6 +746,5 @@ public class AdminAndManager {
         int input = sc.nextInt();
         us.deleteById(uArr.get(input - 1).getUserId());
         System.out.println(uArr.get(input - 1).getFirstName() + "has been deleted");
-
     }
 }

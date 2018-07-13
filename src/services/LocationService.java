@@ -35,13 +35,13 @@ public class LocationService implements Service<Location> {
             String zip = location.getZip();
 
             oCSF = connection.prepareCall("{call SP_INSERT_LOCATION(?,?,?,?,?,?,?)}");
-            oCSF.setString(1,userId);
-            oCSF.setDouble(2,18.4);
-            oCSF.setString(3,street);
-            oCSF.setString(4,city);
-            oCSF.setString(5,state);
-            oCSF.setString(6,country);
-            oCSF.setString(7,zip);
+            oCSF.setString(1, userId);
+            oCSF.setDouble(2, 18.4);
+            oCSF.setString(3, street);
+            oCSF.setString(4, city);
+            oCSF.setString(5, state);
+            oCSF.setString(6, country);
+            oCSF.setString(7, zip);
             oCSF.executeUpdate();
             oCSF.close();
             return true;
